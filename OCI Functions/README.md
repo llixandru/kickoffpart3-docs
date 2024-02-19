@@ -1,9 +1,4 @@
----
-title: "Deploying and securing a microservice on OCI Functions"
-author:
-  - Liana Lixandru
-date: 2024-02-19
-...
+# Securing OCI Functions
 
 # Introduction
 
@@ -15,7 +10,7 @@ In this webinar, we will explore how Oracle Cloud Infrastructure (OCI) Functions
 
 Throughout this session, we will delve into microservices security and demonstrate practical strategies for securing microservices with OCI Functions and API Gateway.
 
-# Deploying and securing a microservice on OCI Functions
+# Deploying and securing a microservice on OCI
 
 [Oracle Cloud Infrastructure Functions](https://docs.oracle.com/en-us/iaas/Content/Functions/home.htm#top "Functions is a serverless platform that enables you to create, run, and scale business logic without managing any infrastructure.") is a fully managed, multi-tenant, highly scalable, on-demand, Functions-as-a-Service platform. 
 
@@ -52,17 +47,17 @@ Next step in our exercise is to create an Always Free instance on Compute where 
    - **Public**: `172.16.0.0/26`
    - **Private**: `172.16.0.64/26`
 
-![Adding CIDR Blocks for the two subnets](./images/Adding CIDR Blocks for the two subnets.png "Adding CIDR Blocks for the two subnets")
+![Adding CIDR Blocks for the two subnets](<./images/Adding CIDR Blocks for the two subnets.png> "Adding CIDR Blocks for the two subnets")
 
 5. Click on **Next**, and then **Create**.
 
 Once the creation is complete, click on View VCN to see the newly created resources.
 
-![VCN creation complete.png](./images/Creation complete.png "VCN creation complete.png")
+![VCN creation complete](<./images/Creation complete.png> "VCN creation complete")
 
 6. Navigate to the Security List and add ports tcp/80 and tcp/443 to the allowed ports.
 
-![Open up ports 80 and 443](./images/Open up ports 80 and 443.png "Open up ports 80 and 443")
+![Open up ports 80 and 443](<./images/Open up ports 80 and 443.png> "Open up ports 80 and 443")
 
 #### Creating the compute instance
 
@@ -70,15 +65,15 @@ And now finally we can create our Compute instance. For that, we will open the m
 
 Give the instance a name, for example `gcn-demo`, then select the image and shape corresponding to Ampere A1 / aarch64. If needed, increase the number of core OCPUs and the memory (ex. 2 OCPUs, 16GB memory).
 
-![Selecting the image and shape](./images/Selecting the image and shape.png)
+![Selecting the image and shape](<./images/Selecting the image and shape.png>)
 
 Make sure our newly created VCN and the public subnet are selected in the list.
 
-![Selecting the VCN and the public subnet.png](./images/Selecting the VCN and the public subnet.png)
+![Selecting the VCN and the public subnet](<./images/Selecting the VCN and the public subnet.png>)
 
 Download the generated SSH keys or add your own to the instance. 
 
-![Creating a Compute Instance - saving your SSH keys](./images/Creating a Compute Instance - saving your SSH keys.png "Creating a Compute Instance - saving your SSH keys")
+![Creating a Compute Instance - saving your SSH keys](<./images/Creating a Compute Instance - saving your SSH keys.png> "Creating a Compute Instance - saving your SSH keys")
 
 And then click on **Create** at the bottom. Your instance will soon be provisioned and we can use it to work on our application.
 
@@ -103,20 +98,18 @@ Open the navigation menu and click **Identity & Security**. Under **Identity**, 
 Click **Create Policy** and use the Policy Builder's manual editor to create a new policy with the following policy statements:
 
 ```
-Allow dynamic-group <dynamic-group-name> to manage functions-family
-in compartment <compartment-name>
-Allow dynamic-group <dynamic-group-name> to use virtual-network-family
-in compartment <compartment-name>
+Allow dynamic-group <dynamic-group-name> to manage functions-family in compartment <compartment-name>
+Allow dynamic-group <dynamic-group-name> to use virtual-network-family in compartment <compartment-name>
 Allow dynamic-group <dynamic-group-name> to read repos in tenancy
 ```
 
-![Creating the policy](./images/Creating the policy.png "Creating the policy")
+![Creating the policy](<./images/Creating the policy.png> "Creating the policy")
 
 #### Connecting from Visual Studio Code 🧑‍💻
 
 In VS Code, navigate to Remote SSH, and open up the command palette. Select Open SSH Configuration File from the list so we can add our connection in.
 
-![Open SSH configuration file.png](./images/Open SSH configuration file.png)
+![Open SSH configuration file.png](<./images/Open SSH configuration file.png>)
 
 In our `.ssh/config` file, we need to add our details in as it follows:
 
@@ -129,7 +122,7 @@ Host gcn-demo
 
 Save the file and close it, then refresh the Remotes list. Our newly added connection should appear right at the top. Click on **Connect in current window**.
 
-![Connect in current window](./images/Connect in current window.png "Connect in current window")
+![Connect in current window](<./images/Connect in current window.png> "Connect in current window")
 
 Next, let's install Podman and the Fn CLI.
 
@@ -201,10 +194,7 @@ Dependencies resolved.
 Nothing to do.
 Complete!
 fn binary moved to /usr/local/bin/fn
-/usr/local/bin/fn: ELF 64-bit LSB executable, ARM aarch64, version 1 (SYSV), 
-dynamically linked, interpreter /lib/ld-linux-aarch64.so.1, for GNU/Linux 3.7.0,
-BuildID[sha1]=1ba8ac0f5f950749359763ad0041960abfa7a062, 
-with debug_info, not stripped
+/usr/local/bin/fn: ELF 64-bit LSB executable, ARM aarch64, version 1 (SYSV), dynamically linked, interpreter /lib/ld-linux-aarch64.so.1, for GNU/Linux 3.7.0, BuildID[sha1]=1ba8ac0f5f950749359763ad0041960abfa7a062, with debug_info, not stripped
 fn version 0.6.29
 ```
 
@@ -214,7 +204,7 @@ In the OCI Console, let's navigate to **Developer Services** and click on **Func
 
 Make sure you have selected the VCN we created in the previous step, and pick the Shape corresponding to the compute image shape.
 
-![Creating an OCI Functions application](./images/Creating an OCI Functions application.png "Creating an OCI Functions application")
+![Creating an OCI Functions application](<./images/Creating an OCI Functions application.png> "Creating an OCI Functions application")
 
 ### Get the Auth token for OCIR
 
@@ -237,8 +227,7 @@ In order to use other OCI Services, your function must be part of a dynamic grou
 When specifying the **Matching Rules**, we suggest matching all functions in a compartment with:
 
 ```
-ALL {resource.type = 'fnfunc', resource.compartment.id
-= 'ocid1.compartment.oc1..aaaaaxxxxx'}
+ALL {resource.type = 'fnfunc', resource.compartment.id = 'ocid1.compartment.oc1..aaaaaxxxxx'}
 ```
 
 ### Create or Update IAM Policies
@@ -247,8 +236,7 @@ Create a new policy that allows the dynamic group to `manage objects` in the fun
 Your policy should look something like this:
 
 ```
-Allow dynamic-group <dynamic-group-name> to manage objects
-in compartment <compartment-name>
+Allow dynamic-group <dynamic-group-name> to manage objects in compartment <compartment-name>
 ```
 
 ## Create the function 🧑‍💻
@@ -276,28 +264,33 @@ fn update context oracle.compartment-id ocid1.compartment.oc1..[ID]
 fn update context api-url https://functions.<region-name>.oraclecloud.com
 ```
 
-3. Provide a unique repository name prefix to distinguish your function images from other people’s. For example, with 'jdoe' as the prefix, the image path for a 'hello' function image is:
-
-`<region-key>.ocir.io/<tenancy-namespace>/jdoe/hello:0.0.1`
+3. Provide a unique repository name prefix to distinguish your function images from other people’s. For example, with 'jdoe' as the prefix, the image path for a 'hello' function image is: `<region-key>.ocir.io/<tenancy-namespace>/jdoe/hello:0.0.1`
 
 Let's update the context to use that URL:
 
-`fn update context registry <region-key>.ocir.io/<tenancy-namespace>/
-objectstorage-fn-demo`
+```bash
+fn update context registry <region-key>.ocir.io/<tenancy-namespace>/objectstorage-fn-demo
+```
 
 4. Log into the Registry using the Auth Token as your password:
 
-`podman login -u '<tenancy-namespace>/<user>' <region-key>.ocir.io`
+```bash
+podman login -u '<tenancy-namespace>/<user>' <region-key>.ocir.io
+```
 
 5. Add the `container-enginetype` configuration setting to the `~/.fn/config.yaml` file as follows:
 
-`container-enginetype: podman`
+```bash
+container-enginetype: podman
+```
 
 6. Deploy your function
 
-`fn deploy --app objectstorage-demo-fn`
+```bash
+fn deploy --app objectstorage-demo-fn
+```
 
-![Deploying the function](./images/Deploying the function.png "Deploying the function")
+![Deploying the function](<./images/Deploying the function.png> "Deploying the function")
 
 ## Create a public bucket
 
@@ -313,11 +306,11 @@ Let's create a bucket in the same compartment as our functions.
    
 The bucket is created immediately and you can start uploading objects to it.
 
-![Bucket creation](./images/Bucket creation.png "Bucket creation")
+![Bucket creation](<./images/Bucket creation.png> "Bucket creation")
 
 > Make sure the bucket is public:
 
-![Make sure the bucket is public](./images/Make sure the bucket is public.png "Make sure the bucket is public")
+![Make sure the bucket is public](<./images/Make sure the bucket is public.png> "Make sure the bucket is public")
 
 ## Test the function 🧪
 
@@ -337,9 +330,9 @@ echo -n '{
 }' | fn invoke objectstorage-demo-fn oci-objectstorage-put-object-python
 ```
 
-![Calling the function](./images/Calling the function.png "Calling the function")
+![Calling the function](<./images/Calling the function.png> "Calling the function")
 
-![File created](./images/File created.png "File created")
+![File created](<./images/File created.png> "File created")
 
 ## Secure the function 🔏
 
@@ -371,7 +364,7 @@ Overall, API Gateway in OCI provides a secure and scalable solution for exposing
     - the name of the VCN to use with API Gateway (we will use the same VCN as the one our cluster is on)
     - the name of the public subnet in the VCN
 
-![Create a new API Gateway](./images/Create a new API Gateway.png "Create a new API Gateway")
+![Create a new API Gateway](<./images/Create a new API Gateway.png> "Create a new API Gateway")
 
 #### Creating a deployment on API Gateway
 
@@ -380,11 +373,11 @@ Now, we need to move on to the next part of securing our application, which is c
 1. Navigate to **Developer Services** - **API Gateway** - **Gateways**. Click on our created API Gateway and the **Deployments** tab, which will allow us to create a new deployment.
 2. Click on **Create deployment**. Fill in a name for our deployment, and the path prefix, for example `/fn`.
 
-![Creating a new deployment on API GW](./images/Creating a new deployment on API GW.png "Creating a new deployment on API GW")
+![Creating a new deployment on API GW](<./images/Creating a new deployment on API GW.png> "Creating a new deployment on API GW")
 
 3. Click on next. This is where we can configure Authentication. We will save this for later, to check how access to our access changes once we add OAuth2 as a security measure.
 
-![API GW Authentication options](./images/API GW Authentication options.png "A{I GW Authentication options")
+![API GW Authentication options](<./images/API GW Authentication options.png> "API GW Authentication options")
 
 4. In the **Routes** tab, we need to create our route to the function.
 
@@ -394,19 +387,17 @@ Now, we need to move on to the next part of securing our application, which is c
   
 Select the application and the function from the drop-down lists.
 
-![Adding the route to the OCI Functions backend](./images/Adding the route to the OCI Functions backend.png "Adding the route to the OCI Functions backend")
+![Adding the route to the OCI Functions backend](<./images/Adding the route to the OCI Functions backend.png> "Adding the route to the OCI Functions backend")
 
 5. Click on **Next**, then **Create**. We can now see and copy the publicly accessible endpoint for our application.
 
-![Active deployment on API GW](./images/Active deployment on API GW.png "Active deployment on API GW")
+![Active deployment on API GW](<./images/Active deployment on API GW.png> "Active deployment on API GW")
 
 #### Allowing API Gateway access to OCI Functions
 
 Let's create a new policy in our compartment to allow API Gateway to call functions.
 
-`ALLOW any-user to use functions-family in compartment <compartment-name> 
-where ALL {request.principal.type= 'ApiGateway', 
-request.resource.compartment.id = '<compartment-id>'}`
+`ALLOW any-user to use functions-family in compartment <compartment-name> where ALL {request.principal.type= 'ApiGateway', request.resource.compartment.id = '<compartment-id>'}`
 
 #### Testing via REST
 
@@ -423,7 +414,7 @@ https://<id>.apigateway.<region-name>.oci.customer-oci.com/fn/create \
 }'
 ```
 
-![Call via Postman](./images/Call via POstman.png "Call via Postman")
+![Call via Postman](<./images/Call via POstman.png> "Call via Postman")
 
 ### OAuth2 ✍️
 
@@ -476,7 +467,7 @@ Edit the deployment created earlier.
 
 In the API Request Policies section of the deployment click **Add** next to **Authentication:**
 
-![Adding an Authentication Policy](./images/Adding an Authentication Policy.png "Adding an Authentication Policy")
+![Adding an Authentication Policy](<./images/Adding an Authentication Policy.png> "Adding an Authentication Policy")
 
 ##### **Configure Authentication Policy**
 
@@ -494,15 +485,14 @@ Configure the policy as follows:
 Example:
 
 ```
-{ “kid”: “SIGNING_KEY”, “kty”: “RSA”, “use”: “sig”, “alg”: “RS256”,
-“n”: “abcd1234xxxx”, “e”: “AQAB” }
+{ “kid”: “SIGNING_KEY”, “kty”: “RSA”, “use”: “sig”, “alg”: “RS256”, “n”: “abcd1234xxxx”, “e”: “AQAB” }
 ```
 
 All the values for these parameters can be found in the JWKS we saved earlier. Replace the values with the ones for your instance.
 
 _For more info on what each field represents – please check [the documentation.](https://docs.oracle.com/en-us/iaas/Content/APIGateway/Tasks/apigatewayusingjwttokens.htm)_
 
-![Validation type](./images/Validation type.png "Validation type")
+![Validation type](<./images/Validation type.png> "Validation type")
 
 #### Create Oracle IAM applications to generate and validate JWTs
 
@@ -511,7 +501,7 @@ We need to create two confidential applications in Oracle IAM to generate and th
 - A Resource Server – this application will be used to validate the tokens
 - A Client Application – this application will be used by a client to obtain the tokens
 
-![Creating the Confidential Applications](./images/Creating the Confidential Applications.png "Creating the Confidential Applications")
+![Creating the Confidential Applications](<./images/Creating the Confidential Applications.png> "Creating the Confidential Applications")
 
 ##### Create the Resource Server Application
 
@@ -526,7 +516,7 @@ The Resource Server Application will be used for JWT validation.
 7. Click on **Next** twice, and then on **Finish**
 8. **Activate** the Resource Server application.
 
-![Resource server and scope](./images/Resource server and scope.png "Resource server and scope")
+![Resource server and scope](<./images/Resource server and scope.png> "Resource server and scope")
 
 ##### Create the Client Application
 
@@ -542,23 +532,22 @@ The Client Application will be used by the API clients to obtain the tokens.
 
 6. **Activate** the application.
 
-![Token issuance policy for the client](./images/Token issuance policy for the client.png "Token issuance policy for the client")
+![Token issuance policy for the client](<./images/Token issuance policy for the client.png> "Token issuance policy for the client")
 
 ### Test the service
 
 Using cURL, Postman or any other REST client, test out the services. We can retrieve the IAM Domain URL from the Domain configuration.
 
-![IAM URL retrieval](./images/IAM URL retrieval.png "IAM URL retrieval")
+![IAM URL retrieval](<./images/IAM URL retrieval.png> "IAM URL retrieval")
 
 Calling our endpoint like before will now return a `401 Unauthorized` error.
 
-![401 Unauthorized.png](./images/401 Unauthorized.png)
+![401 Unauthorized.png](<./images/401 Unauthorized.png>)
 
 1. Get the JWT Token from IAM:
 
 ```bash
-curl --location --request POST "https://idcs-xxxx.identity.oraclecloud.com/
-oauth2/v1/token" \
+curl --location --request POST "https://idcs-xxxx.identity.oraclecloud.com/oauth2/v1/token" \
 --header "Content-Type: application/x-www-form-urlencoded" \
 --data-urlencode "grant_type=client_credentials" \
 --data-urlencode "client_id=<client-id>" \
@@ -566,21 +555,21 @@ oauth2/v1/token" \
 --data-urlencode "scope=<scope>"
 ```
 
-![Getting the token.png](./images/Getting the token.png "Getting the token.png")
+![Getting the token.png](<./images/Getting the token.png> "Getting the token.png")
 
 2. Call the API Gateway endpoint:
 
 ```bash
-curl --location --request POST 'https://<id>.apigateway.<region-name>.
-oci.customer-oci.com/oracleapi/search' \
+curl --location --request POST 'https://<id>.apigateway.<region-name>.oci.customer-oci.com/oracleapi/search' \
 --header 'Authorization: Bearer <TOKEN>' \
 --header 'Content-Type: application/json' \
 --data '{
 "objectName": "<object-name>",
 "bucketName": "<bucket-name>",
-"content": "<content>"}'
+"content": "<content>"
+}'
 ```
 
-![Calling API Gateway with a Bearer token](./images/Calling API Gateway with a Bearer token.png "Calling API Gateway with a Bearer token")
+![Calling API Gateway with a Bearer token](<./images/Calling API Gateway with a Bearer token.png> "Calling API Gateway with a Bearer token")
 
 Thank you for joining us for this webinar. If you want to learn more, don't hesitate to check out the official documentation at https://docs.oracle.com. Happy coding!
