@@ -1,0 +1,4 @@
+flask
+oci
+python-dotenv
+gunicorn
