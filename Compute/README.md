@@ -67,21 +67,21 @@ This is a Flask app that can be run using Gunicorn. It exposes three endpoints f
 
 ### Upload a picture
 
-    ```bash
-    curl -X POST -F "file=@/Users/${whoami}/Downloads/my_picture.jpg" http://localhost:5000/pictures/avatar.jpg
-    ```
+```bash
+curl -X POST -F "file=@/Users/${whoami}/Downloads/my_picture.jpg" http://localhost:5000/pictures/avatar.jpg
+```
 
 ### Download a picture
 
-    ```bash
-    curl -X GET http://localhost:5000/pictures/avatar.jpg -o downloaded_file.jpg
-    ```
+```bash
+curl -X GET http://localhost:5000/pictures/avatar.jpg -o downloaded_file.jpg
+```
 
 ### Delete a picture
 
-    ```bash
-    curl -X DELETE http://localhost:5000/pictures/avatar.jpg
-    ```
+```bash
+curl -X DELETE http://localhost:5000/pictures/avatar.jpg
+```
 
 ## Deploy
 
