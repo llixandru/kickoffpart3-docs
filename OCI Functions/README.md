@@ -1,6 +1,52 @@
 # Securing OCI Functions
 
-# Introduction
+## Table of Contents
+
+* [Table of Contents](#table-of-contents)
+* [Securing OCI Functions](#securing-oci-functions)
+  * [Introduction](#introduction)
+  * [Deploying and securing a microservice on OCI](#deploying-and-securing-a-microservice-on-oci)
+  * [Prepare the development environment 💻](#prepare-the-development-environment)
+    * [Creating an Always Free compute instance 🆓](#creating-an-always-free-compute-instance)
+      * [Creating a VCN](#creating-a-vcn)
+      * [Creating the compute instance](#creating-the-compute-instance)
+      * [Set up the OCI compute instance](#set-up-the-oci-compute-instance)
+      * [Connecting from Visual Studio Code 🧑‍💻](#connecting-from-visual-studio-code)
+* [Clone the fn CLI repository](#clone-the-fn-cli-repository)
+* [Install Go (if not already installed)](#install-go-if-not-already-installed)
+* [Set up Go environment variables](#set-up-go-environment-variables)
+* [Build the fn CLI for aarch64](#build-the-fn-cli-for-aarch64)
+* [Move fn binary to /usr/local/bin if build successful](#move-fn-binary-to-usr-local-bin-if-build-successful)
+* [Verify the compiled fn CLI binary](#verify-the-compiled-fn-cli-binary)
+* [Run the fn CLI version command](#run-the-fn-cli-version-command)
+* [Delete the cli folder](#delete-the-cli-folder)
+  * [Configure OCI Functions 🌤️](#configure-oci-functions)
+    * [Get the Auth token for OCIR](#get-the-auth-token-for-ocir)
+    * [Create or Update your Dynamic Group](#create-or-update-your-dynamic-group)
+    * [Create or Update IAM Policies](#create-or-update-iam-policies)
+  * [Create the function 🧑‍💻](#create-the-function)
+  * [Create a public bucket](#create-a-public-bucket)
+  * [Test the function 🧪](#test-the-function)
+  * [Secure the function 🔏](#secure-the-function)
+    * [API Gateway 📚](#api-gateway)
+      * [Creating an API Gateway](#creating-an-api-gateway)
+      * [Creating a deployment on API Gateway](#creating-a-deployment-on-api-gateway)
+      * [Allowing API Gateway access to OCI Functions](#allowing-api-gateway-access-to-oci-functions)
+      * [Testing via REST](#testing-via-rest)
+    * [OAuth2 ✍️](#oauth2)
+      * [Securing the application with IDCS and OAuth2](#securing-the-application-with-idcs-and-oauth2)
+        * [**Prerequisites for using JWT Tokens**](#prerequisites-for-using-jwt-tokens)
+        * [**Obtain JWKS Static Key from IDCS**](#obtain-jwks-static-key-from-idcs)
+      * [Create the Authentication Policy](#create-the-authentication-policy)
+        * [**Edit the existing API Deployment**](#edit-the-existing-api-deployment)
+        * [**Add an Authentication Policy**](#add-an-authentication-policy)
+        * [**Configure Authentication Policy**](#configure-authentication-policy)
+      * [Create Oracle IAM applications to generate and validate JWTs](#create-oracle-iam-applications-to-generate-and-validate-jwts)
+        * [Create the Resource Server Application](#create-the-resource-server-application)
+        * [Create the Client Application](#create-the-client-application)
+    * [Test the service](#test-the-service)
+
+## Introduction
 
 In today's digital landscape, where agility and scalability are paramount, microservices architecture has emerged as a transformative approach for building and deploying applications. By breaking down monolithic applications into smaller, independent services, organizations can accelerate development cycles, improve scalability, and enhance overall agility.
 
@@ -10,7 +56,7 @@ In this webinar, we will explore how Oracle Cloud Infrastructure (OCI) Functions
 
 Throughout this session, we will delve into microservices security and demonstrate practical strategies for securing microservices with OCI Functions and API Gateway.
 
-# Deploying and securing a microservice on OCI
+## Deploying and securing a microservice on OCI
 
 [Oracle Cloud Infrastructure Functions](https://docs.oracle.com/en-us/iaas/Content/Functions/home.htm#top "Functions is a serverless platform that enables you to create, run, and scale business logic without managing any infrastructure.") is a fully managed, multi-tenant, highly scalable, on-demand, Functions-as-a-Service platform. 
 
