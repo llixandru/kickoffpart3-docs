@@ -15,6 +15,8 @@
     * [Run the Application 🏃](#run-the-application)
     * [Test the Application 🧪](#test-the-application)
     * [Deploy the Application 🧑‍💻](#deploy-the-application)
+  * [[OPTIONAL] Cloning and creating a new compute instance](#optional-cloning-and-creating-a-new-compute-instance)
+    * [Creating a private load balancer](#creating-a-private-load-balancer)
   * [Secure the function 🔏](#secure-the-function)
     * [API Gateway 📚](#api-gateway)
       * [Creating an API Gateway](#creating-an-api-gateway)
@@ -281,6 +283,23 @@ systemctl status flask-storage-app
 
 4. Update the private subnet security list to open up port tcp/8000, on which our Gunicorn app listens.
 
+## [OPTIONAL] Cloning and creating a new compute instance
+
+In order to clone our work and quickly provision a second compute instance running the same app, we need to follow a few simple steps.
+
+1. Navigate to **Compute** - **Instances** and open our instance.
+2. Click on **More Actions** - **Create custom image**, give the image a name and click **Create**. The instance will be temporarily taken down while the custom image is being created.
+3. On the **Instances** page, click on **Create instance**. Select our custom image from the list, and add the same SSH key that we used for the previous instance creation.
+4. Make sure to enable the Bastion plugin in the Oracle Cloud Agent tab of the new instance if you want to SSH into it later.
+
+### Creating a private load balancer
+
+1. In the navigation menu, click **Networking**, then click **Load Balancers**.
+2. Click **Create Load Balancer**.
+3. Visibility Type: Click **Private Load Balancer**. The LB receives a private IP address from the hosting subnet. The LB acts a front end for internal incoming traffic visible only within the VCN.
+4. **Subnet**: Select the name of the VNC and Subnet for the LB from the pull-down menus.
+5. Click **Create Load Balancer**.
+
 ## Secure the function 🔏
 
 ### API Gateway 📚
@@ -328,10 +347,10 @@ Now, we need to move on to the next part of securing our application, which is c
 
 4. In the **Routes** tab, we need to create our route to the function.
 
-    - **Path**: /{userId}/{filename}
+    - **Path**: `/{userId}/{filename}`
     - **Methods**: POST, GET, DELETE
     - **Backend Type**: HTTP
-    - **URL**: http://[PRIVATE-IP]:8000/${request.path[userId]}/${request.path[filename]}
+    - **URL**: `http://<compute-or-load-balancer-private-ip>:8000/${request.path[userId]}/${request.path[filename]}`
 
 5. Click on **Next**, then **Create**. We can now see and copy the publicly accessible endpoint for our application.
 
