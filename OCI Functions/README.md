@@ -32,14 +32,14 @@ Let's quickly spin up a Compute instance that we'll use as a development environ
 
 ### Creating an Always Free compute instance 🆓
 
-Next step in our exercise is to create an Always Free instance on Compute where we can build and run our GCN application. 
+Next step in our exercise is to create an Always Free instance on Compute where we can build our OCI Function. 
 
 #### Creating a VCN
 
 1. Open the navigation menu, click **Networking**, and then click **Virtual cloud networks**.
 2. Under **List Scope**, select a compartment that you have permission to work in.
 3. Click **Start VCN WIzard**, and select **Create VCN with Internet Connectivity**.
-4. Enter a name (`vcn-gcn-demo`) and a CIDR Block (ex. `172.16.0.0/24`).
+4. Enter a name (`vcn-fn-demo`) and a CIDR Block (ex. `172.16.0.0/24`).
 
 ![Running the VCN Wizard](./images/Running the VCN Wizard.png "Running the VCN Wizard")
 
@@ -63,7 +63,7 @@ Once the creation is complete, click on View VCN to see the newly created resour
 
 And now finally we can create our Compute instance. For that, we will open the menu in the OCI console, navigate to **Compute** - **Instances** and then click on **Create Instance**.
 
-Give the instance a name, for example `gcn-demo`, then select the image and shape corresponding to Ampere A1 / aarch64. If needed, increase the number of core OCPUs and the memory (ex. 2 OCPUs, 16GB memory).
+Give the instance a name, for example `fn-demo`, then select the image and shape corresponding to Ampere A1 / aarch64. If needed, increase the number of core OCPUs and the memory (ex. 2 OCPUs, 16GB memory).
 
 ![Selecting the image and shape](<./images/Selecting the image and shape.png>)
 
@@ -114,7 +114,7 @@ In VS Code, navigate to Remote SSH, and open up the command palette. Select Open
 In our `.ssh/config` file, we need to add our details in as it follows:
 
 ```
-Host gcn-demo
+Host fn-demo
 	HostName [PUBLIC IP]
 	User opc
 	IdentityFile /path/to/ssh/private.key
