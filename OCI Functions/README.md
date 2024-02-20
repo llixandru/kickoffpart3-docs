@@ -165,7 +165,7 @@ Save the file and close it, then refresh the Remotes list. Our newly added conne
 Next, let's install Podman and the Fn CLI.
 
 ```bash
-sudo dnf install -y podman
+sudo dnf install -y podman git
 
 curl -LSs https://raw.githubusercontent.com/fnproject/cli/master/install | sh
 ```
