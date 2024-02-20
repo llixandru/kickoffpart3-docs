@@ -165,7 +165,7 @@ Save the file and close it, then refresh the Remotes list. Our newly added conne
 Next, let's install Podman and the Fn CLI.
 
 ```bash
-sudo dnf install -y podman git go
+sudo dnf install -y podman git
 
 curl -LSs https://raw.githubusercontent.com/fnproject/cli/master/install | sh
 ```
@@ -178,6 +178,9 @@ curl -LSs https://raw.githubusercontent.com/fnproject/cli/master/install | sh
 # Clone the fn CLI repository
 git clone https://github.com/fnproject/cli.git
 cd cli
+
+# Install Go (if not already installed)
+sudo dnf -y install go
 
 # Set up Go environment variables
 export GOPATH=$HOME/go
