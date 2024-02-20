@@ -162,10 +162,10 @@ Save the file and close it, then refresh the Remotes list. Our newly added conne
 
 ![Connect in current window](<./images/Connect in current window.png> "Connect in current window")
 
-Next, let's install Podman and the Fn CLI.
+Next, let's install Podman and the Fn CLI with its dependencies.
 
 ```bash
-sudo dnf install -y podman git
+sudo dnf install -y podman git python36-oci-cli
 
 curl -LSs https://raw.githubusercontent.com/fnproject/cli/master/install | sh
 ```
@@ -234,6 +234,35 @@ Complete!
 fn binary moved to /usr/local/bin/fn
 /usr/local/bin/fn: ELF 64-bit LSB executable, ARM aarch64, version 1 (SYSV), dynamically linked, interpreter /lib/ld-linux-aarch64.so.1, for GNU/Linux 3.7.0, BuildID[sha1]=1ba8ac0f5f950749359763ad0041960abfa7a062, with debug_info, not stripped
 fn version 0.6.29
+```
+
+### Create an API key for testing
+
+1. Navigate to your user profile in the OCI console and click on API Keys.
+2. Click on Add API Key and save your private and public keys locally.
+3. Copy the details shown in the preview.
+4. Create a config file in the VS Code terminal, in your home directory. Replace #TODO with the path to your key file.
+
+```bash
+touch .oci/config
+```
+
+5. Upload your private key to the compute instance and place it in the .oci folder. 
+
+```bash
+scp /path/to/oci_api_key.pem flask-demo:/home/ubuntu/.oci/
+```
+
+Then, on the compute instance, change the permissions on the key.
+
+```bash
+chmod 400 ~/.oci/oci_api_key.pem
+```
+
+Test the connection:
+
+```bash
+oci os ns get
 ```
 
 ## Configure OCI Functions 🌤️
