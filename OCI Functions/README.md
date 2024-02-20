@@ -483,9 +483,12 @@ _Permission required for this step only: Oracle IAM Administrator_
 
 Before creating the Authentication Policy in API Gateway, we need to obtain the JWKS Static Key from Oracle IAM.
 
-1. From the Oracle IAM Console – **Identity & Security** Menu - **Federation** - **OracleIdentityCloudService**, click on the _Oracle Identity Cloud Service Console_ link:
-2. In Oracle IAM, go to **Settings** - **Default Settings** and **Toggle ON** the **Access Signing Certificate** option, in case it's not activated already.
-3. Get the JWKS from IAM.
+1. Open the navigation menu and click **Identity & Security**. Under Identity, click **Domains**.
+2. Click the name of the identity domain that you want to work in. You might need to change the compartment to find the domain that you want.
+3. Click **Settings** and then click **Domain settings**.
+4. Under Access signing certificate, select **Configure client access** to enable clients to access the tenant signing certificate without logging in to IAM.
+5. Click Save changes and confirm the action to save the default settings.
+6. In the overview page for the identity domain overview, click Copy next to the Domain URL in Domain information.
 
 ```
 https://idcs-1234xxx.identity.oraclecloud.com/admin/v1/SigningCert/jwk
