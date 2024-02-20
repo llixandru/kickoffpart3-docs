@@ -79,7 +79,7 @@ Next step in our exercise is to create an Always Free instance on Compute where 
 3. Click **Start VCN WIzard**, and select **Create VCN with Internet Connectivity**.
 4. Enter a name (`vcn-fn-demo`) and a CIDR Block (ex. `172.16.0.0/24`).
 
-![Running the VCN Wizard](./images/Running the VCN Wizard.png "Running the VCN Wizard")
+![Running the VCN Wizard](<./images/Running the VCN Wizard.png> "Running the VCN Wizard")
 
 5. Add the CIDR Blocks for the two subnets:
    - **Public**: `172.16.0.0/26`
