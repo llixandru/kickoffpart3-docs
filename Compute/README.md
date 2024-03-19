@@ -264,7 +264,7 @@ After=network.target
 User=ubuntu
 WorkingDirectory=/path/to/your/app
 Environment="PATH=/path/to/venv/bin:$PATH"
-ExecStart=/path/to/venv/bin/gunicorn --workers 4 wsgi:app
+ExecStart=/path/to/venv/bin/gunicorn --workers 4 app:app
 
 [Install]
 WantedBy=multi-user.target
