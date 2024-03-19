@@ -225,7 +225,7 @@ scp ~/Downloads/my_picture.jpg flask-demo:/home/ubuntu/
 1. Upload a picture
 
 ```bash
-curl -F "fileUpload=@/home/ubuntu/my_picture.jpg" http://localhost:5000/pictures/avatar.jpg
+curl -F "file=@/home/ubuntu/my_picture.jpg" http://localhost:5000/pictures/avatar.jpg
 ```
 
 ![The uploaded picture being shown in the Bucket](<./images/The uploaded picture being sown in the Bucket.png> "The uploaded picture being shown in the Bucket")
@@ -361,7 +361,7 @@ Now, we need to move on to the next part of securing our application, which is c
 Once the deployment is active we can copy the endpoint and call our function via REST.
 
 ```bash
-curl -F "fileUpload=@/path/to/image/avatar.jpg" https://[API_GW_ID].apigateway.[region].oci.customer-oci.com/pictures/avatar.jpg
+curl -F "file=@/path/to/image/avatar.jpg" https://[API_GW_ID].apigateway.[region].oci.customer-oci.com/pictures/avatar.jpg
 
 curl https://[API_GW_ID].apigateway.[region].oci.customer-oci.com/pictures/john/avatar.jpg -J -o ~/Downloads/profile.jpg
 
