@@ -140,6 +140,9 @@ Save the file and close it, then refresh the Remotes list. Our newly added conne
 1. Now we can clone the repository containing the source code of our app.
 
 ```bash
+sudo apt update
+sudo apt install git python3.10-venv
+
 git clone https://github.com/llixandru/oci-upload-object-storage-python
 ```
 
@@ -203,7 +206,7 @@ Replace `${OBJECT_STORAGE_BUCKET}` with the name of your bucket.
 To run and test our app, we need to execute the following commands in the folder:
 
 ```bash
-python -m venv venv
+python3 -m venv venv
 
 source venv/bin/activate
 
